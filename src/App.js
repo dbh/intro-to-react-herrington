@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import styled from "@emotion/styled";
+import { Button } from '@material-ui/core';
 
 import './App.css';
 import { react } from "@babel/types";
@@ -9,7 +10,13 @@ const PokemonRow = ({ pokemon, onSelect }) => (
   <tr>
     <td>{pokemon.name.english}</td>
     <td>{pokemon.type.join(', ')}</td>
-    <td><button onClick={() => onSelect(pokemon)}>Select!</button></td>
+    <td>
+      <Button 
+        variant="contained" 
+        color="primary" 
+        onClick={() => onSelect(pokemon)}>Select!
+      </Button>
+    </td>
   </tr>
 );
 
