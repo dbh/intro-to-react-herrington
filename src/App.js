@@ -1,7 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
+import styled from "@emotion/styled";
 
 import './App.css';
+import { react } from "@babel/types";
 
 const PokemonRow = ({ pokemon, onSelect }) => (
   <tr>
@@ -23,14 +25,16 @@ const PokemonInfo = ({ name, base}) => (
   <div>
     <h1>{name.english}</h1>
     <table>
-      {
-        Object.keys(base).map(key => (
-          <tr key={key}>
-            <td>{key}</td>
-            <td>{base[key]}</td>
-          </tr>
-        ))
-      }
+      <tbody>
+        {
+          Object.keys(base).map(key => (
+            <tr key={key}>
+              <td>{key}</td>
+              <td>{base[key]}</td>
+            </tr>
+          ))
+        }
+      </tbody>
     </table>
   </div>
 );
@@ -49,6 +53,28 @@ PokemonInfo.propTypes = {
   })
 };
 
+const Title = styled.h1`
+  text-align: center;
+`
+
+const TwoColumnLayout = styled.div`
+  display: grid;
+  grid-template-columns: 70% 30%;
+  grid-column-gap: 1rem;
+`
+
+const Container = styled.div`
+  margin: auto; 
+  width: 800;
+  paddingTop: lrem
+`
+
+const Input = styled.input`
+  width: 100%;
+  font-size: x-large;
+  padding: 0.2rem
+`
+
 function App() {
   const [filter, filterSet] = React.useState("");
   const [pokemon, pokemonSet] = React.useState([]);
@@ -62,26 +88,13 @@ function App() {
   // with empty array, useEffect triggers only once at beginning
 
   return (
-    <div style={{
-      margin: 'auto', 
-      width: 800,
-      paddingTop: 'lrem'
-    }
-      // class="App"
-      // className="App"
-    }>
-      <h1 className="title">Pokemon Search</h1>
+    <Container>
+      <Title>Pokemon Search</Title>
 
-        
-      <div
-        style={{
-          display: 'grid',
-          gridTemplateColumns: '70% 30%',
-          gridColumnGap: '1rem'
-        }}
-      >
+      <TwoColumnLayout>
+
         <div>
-          <input 
+          <Input 
             value={filter}
             onChange={(event) => filterSet(event.target.value.toLowerCase())}
           />
@@ -105,9 +118,9 @@ function App() {
           <PokemonInfo {...selectedItem} />
         )}
 
-      </div>
+      </TwoColumnLayout>
       
-    </div>
+    </Container>
   );
 }
 
