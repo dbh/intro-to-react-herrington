@@ -2,12 +2,6 @@ import React from "react";
 import PropTypes from "prop-types";
 
 import './App.css';
-// import {createRoot} from 'react-dom/client'
-
-import pokemon from './pokemon.json'
-
-// const container = document.getElementById('root')
-// const root = createRoot(container)
 
 const PokemonRow = ({ pokemon, onSelect }) => (
   <tr>
@@ -57,7 +51,15 @@ PokemonInfo.propTypes = {
 
 function App() {
   const [filter, filterSet] = React.useState("");
+  const [pokemon, pokemonSet] = React.useState([]);
   const [selectedItem, selectedItemSet] = React.useState(null);
+
+  React.useEffect(() => {
+    fetch('http://localhost:3000/pokemon.json')
+      .then(resp => resp.json())
+      .then(data => pokemonSet(data))
+  }, []);
+  // with empty array, useEffect triggers only once at beginning
 
   return (
     <div style={{
