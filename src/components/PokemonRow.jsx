@@ -21,6 +21,7 @@ const PokemonRow = ({ pokemon, onSelect }) => (
 
 PokemonRow.propTypes = {
   pokemon: PropTypes.shape({
+    id: PropTypes.number,
     name: PropTypes.shape({ english: PropTypes.string.isRequired}),
     type: PropTypes.arrayOf(PropTypes.string.isRequired)
   }),
