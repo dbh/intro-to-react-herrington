@@ -14,10 +14,11 @@ const PokemonFilter = () => {
     return (
         <Input 
             value={filter}
-            onChange={(event) => dispatch({
-                type: 'SET_FILTER',
-                payload: event.target.value.toLowerCase()
-            })
+            onChange={(event) => 
+                dispatch({
+                    type: 'SET_FILTER',
+                    payload: event.target.value.toLowerCase()
+                })
             }
         />
     );
