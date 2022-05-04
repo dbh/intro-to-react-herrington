@@ -7,33 +7,11 @@ import './App.css';
 import PokemonInfo from './components/PokemonInfo';
 import PokemonFilter from './components/PokemonFilter';
 import PokemonTable from "./components/PokemonTable";
-import PokemonContext from "./PokemonContext";
 
-const pokemonReducer = (state, action)=> {
-  switch(action.type) {
-    case 'SET_FILTER': 
-      return {
-        ...state, 
-        filter: action.payload,
-      };
-    case 'SET_POKEMON': 
-      return {
-        ...state, 
-        pokemon: action.payload,
-      };
-    case 'SET_SELECTED_POKEMON': 
-      return {
-        ...state, 
-        selectedPokemon: action.payload,
-      };      
-    default:
-        return new Error("No Action");
-    }
-}
+import useStore from './store';
 
 const Title = styled.h1`
-  text-align: center;
-`
+  text-align: center;`
 
 const TwoColumnLayout = styled.div`
   display: grid;
@@ -47,33 +25,26 @@ const PageContainer = styled.div`
   paddingTop: lrem
 `
 
-
 function App() {
-  const [state, dispatch] = React.useReducer(pokemonReducer, {
-    pokemon:[],
-    filter: "",
-    selectedPokemon: null
-  });
+  const pokemon = useStore(state => state.pokemon);
+  const setPokemon = useStore(state => state.setPokemon);
 
   React.useEffect(() => {
     fetch('http://localhost:3000/pokemon.json')
       .then(resp => resp.json())
-      .then((data) => dispatch({
-        type: 'SET_POKEMON',
-        payload: data,
-      }))
-  }, []);
+      .then(setPokemon)
+  }, [setPokemon]);
   // with empty array, useEffect triggers only once at beginning
 
-  if (!state.pokemon) {
+  if (!pokemon) {
     return <div>Loading Data</div>;
   }
 
   return (
-    <PokemonContext.Provider value={{
-      state,
-      dispatch
-    }}> 
+    // <PokemonContext.Provider value={{
+    //   state,
+    //   dispatch
+    // }}> 
       <PageContainer>
         <CssBaseline />
         <Title>Pokemon Search</Title>
@@ -91,7 +62,7 @@ function App() {
         </TwoColumnLayout>
         
       </PageContainer>
-    </PokemonContext.Provider>
+    // </PokemonContext.Provider>
   );
 }
 
